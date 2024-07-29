@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
+
+<title>SHOW</title>
+</head>
+<body>
+	<div class="container">
+		<h1>Dettaglio del libro</h1>
+
+		<h2 th:text="${book.title}"></h2>
+
+		<h3 th:text="${book.author}"></h3>
+
+		<p th:text="|isbn: ${book.isbn}|"></p>
+		
+		<p >Categorie: </p>
+		
+<!--		<ul>-->
+<!--			<li th:each="categoria: ${book.categories}" -->
+<!--				th:text="${categoria.category}"></li>-->
+		
+<!--		</ul>-->
+		
+		
+		<div th:unless="${book.borrowings.isEmpty()}" class="table table-striped">
+			<table id="prestiti">
+				<thead>
+					<tr>
+						<th>Data prestito</th>
+						<th>Note</th>
+						<th>Data restituzione</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="prestito : ${book.borrowings}">
+						<td th:text="${prestito.borrowingDate}">1   </td>
+						<td th:text="${prestito.note}">1  </td>
+						<td th:text="${prestito.returnDate}">1   </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div th:if="${book.borrowings.isEmpty()}" >
+			<p >Non ci sono prestiti per questo libro</p>
+		</div>
+		<a class="btn btn-primary" th:href="@{/books/{id}/borrow(id=${book.id})}"> Avvia nuovo prestito </a>
+		
+		<a class="btn btn-primary" th:href="@{/books}"> Torna alla lista dei libri </a>
+	</div>
+	
+
+	<script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
